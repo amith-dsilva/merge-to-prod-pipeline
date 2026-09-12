@@ -61,11 +61,17 @@ jobs:
       - name: Start new container
         run: |
           docker run -d \
-            --name merge-to-prod-pipeline \
-            --add-host=host.docker.internal:host-gateway \
-            -p 3000:3000 \
-            --env-file .env.docker \
-            merge-to-prod-pipeline
+          --name merge-to-prod-pipeline \
+          --add-host=host.docker.internal:host-gateway \
+          -p 3000:3000 \
+          -e NODE_ENV=production \
+          -e PORT=3000 \
+          -e DB_HOST=host.docker.internal \
+          -e DB_PORT=5432 \
+          -e DB_NAME="${{ secrets.DB_NAME }}" \
+          -e DB_USER="${{ secrets.DB_USER }}" \
+          -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
+          merge-to-prod-pipeline
 
       - name: Health check
         run: |
