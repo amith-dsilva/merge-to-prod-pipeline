@@ -45,8 +45,8 @@ jobs:
         run: |
           flyway \
             -group=true \
-            -url=jdbc:postgresql://localhost:5432/zenalyst_db \
-            -user=postgres \
+            -url=jdbc:postgresql://localhost:5432/${{ secrets.DB_NAME }} \
+            -user=${{ secrets.DB_USER }} \
             -password=${{ secrets.DB_PASSWORD }} \
             -locations=filesystem:./migrations \
             migrate
